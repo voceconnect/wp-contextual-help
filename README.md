@@ -41,7 +41,7 @@ Add the following to your composer.json required dependencies
 
 ## Usage
 
-### Registering a connection
+### Registering a tab
 
 Help tabs are registered using the ```WP_Contextual_Help::register_tab()``` method.
 
