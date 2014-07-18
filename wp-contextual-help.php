@@ -23,7 +23,7 @@ if( !class_exists( 'WP_Contextual_Help' ) ){
 			global $pagenow;
 
 			self::$help_docs_dir = apply_filters( 'wp_contextual_help_docs_dir', get_template_directory() . '/includes/help-docs' );
-			self::$help_docs_img_url = apply_filters( 'wp_contextual_help_docs_dir', get_template_directory_uri() . '/includes/help-docs/img' );
+			self::$help_docs_img_url = apply_filters( 'wp_contextual_help_docs_url', get_template_directory_uri() . '/includes/help-docs/img' );
 
 			foreach( self::$tabs as $tab ){
 				foreach( (array) $tab['page'] as $page ){

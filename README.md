@@ -41,6 +41,20 @@ Add the following to your composer.json required dependencies
 
 ## Usage
 
+When you register a tab you have a few different options as far as what content is displayed there.
+
+If you provide a callback argument in the tab args, that will take precedence and the plugin will not look for any HTML files within the help-docs directory.
+
+If you provide a file argument in the tab args, the plugin will look for that file specifically and if it does not exist will output a warning message in place of the content to notify the developer that the specified help document does not exist.
+
+If no file or callback argument is passed into the tab args, by default the plugin will look for a file with the same name as the id of the tab. So for ```post-management``` it would look for ```post-management.html``` within the help docs directory.
+
+### HTML Help Docs
+
+All help docs should either reside within the ```get_template_directory() . '/includes/help-docs/';``` directory and all images within the ```get_template_directory() . '/includes/help-docs/img/';```
+
+You can use the ```wp_contextual_help_docs_dir``` filter to change the directory for the HTML files and the ```wp_contextual_help_docs_url``` filter to change the base URL for the images. Within your help documentation we use the variable ```{WP_HELP_IMG_URL}``` as a placeholder for the image URL which is then replaced before rendering with the value provided from the filter or defaults to the default help docs image directory.
+
 ### Registering a tab
 
 Help tabs are registered using the ```WP_Contextual_Help::register_tab()``` method.
@@ -66,6 +80,7 @@ add_action( 'init', function(){
 		return;
 
 	// Only display on the pages - post.php and post-new.php, but only on the `post` post_type
+	// This would automatically look for a file called post-management.html within get_template_directory() . '/includes/help-docs/';
 	WP_Contextual_Help::register_tab( 'post-management', 'Post Management', array(
 		'page' => array( 'post.php', 'post-new.php' ),
 		'post_type' => 'post',
@@ -83,7 +98,7 @@ add_action( 'init', function(){
 		'page' => array( 'post.php', 'post-new.php' ),
 		'post_type' => 'post',
 		'callback' => function( $screen, $tab ) {
-			echo 'Test 123';
+			echo '<p>It is super easy to add new help tabs!</p>';
 		}
 	) );
 } );
