@@ -40,6 +40,8 @@ Add the following to your composer.json required dependencies
 
 == Screenshots ==
 
+1. Example display of a custom help tab
+
 == Changelog ==
 
 = 0.0.1 =
