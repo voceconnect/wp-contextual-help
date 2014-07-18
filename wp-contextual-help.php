@@ -15,6 +15,10 @@ if( !class_exists( 'WP_Contextual_Help' ) ){
 		static $help_docs_img_url = '';
 		static $tabs = array();
 
+		/**
+		 * Initialize plugin
+		 * @return void
+		 */
 		static function init(){
 			global $pagenow;
 
@@ -54,7 +58,7 @@ if( !class_exists( 'WP_Contextual_Help' ) ){
 		}
 
 		/**
-		 * Adds tabs to screen on load-$tab['page']
+		 * Adds tabs to screen on 'load-' . $tab['page']
 		 *
 		 * Loops through all tabs and adds them on the appropriate screen
 		 */
@@ -77,8 +81,8 @@ if( !class_exists( 'WP_Contextual_Help' ) ){
 
 		/**
 		 * Loads the tab html
-		 * @param  WP_Screen $screen     [description]
-		 * @param  array     $screen_tab [description]
+		 * @param  WP_Screen $screen     Screen that the help tab is being added to
+		 * @param  array     $screen_tab Screen tab array
 		 * @return void
 		 */
 		static function echo_tab_html( $screen, $screen_tab ){
@@ -99,28 +103,15 @@ if( !class_exists( 'WP_Contextual_Help' ) ){
 				$content = 'The provided HTML file is invalid.';
 			}
 
-			str_replace( '{WP_HELP_IMG_URL}', self::$help_docs_img_url, $content );
+			$content = str_replace( '{WP_HELP_IMG_URL}', self::$help_docs_img_url, $content );
 
 			echo $content;
 		}
 
-		static function is_current_page( $tab ){
-			global $pagenow;
-
-			$current_page = false;
-			if( is_array( $tab['page'] ) ){
-				$current_page = in_array( $pagenow, $tab['page'] );
-			} else {
-				$current_page = (bool) ( $tab['page'] == $pagenow );
-			}
-
-			return $current_page;
-		}
-
 		/**
-		 * [is_current_post_type description]
-		 * @param  array   $tab [description]
-		 * @return boolean      [description]
+		 * Checks to see if the current screen's post type is equivelent to the post type parameter provided when registering help tab
+		 * @param  array   $tab
+		 * @return boolean
 		 */
 		static function is_current_post_type( $tab ){
 			$screen = get_current_screen();
