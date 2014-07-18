@@ -1,0 +1,14 @@
+{
+    "name": "voceconnect/wp-contextual-help",
+    "description": "WordPress plugin that allows a developer to easily extend the contextual help dropdown content area in WordPress",
+    "license": "GPLv2+",
+    "authors": [
+        {
+            "name": "Kevin Langley",
+            "email": "kevin@voceconnect.com"
+        }
+    ],
+    "autoload": {
+        "files": ["wp-contextual-help.php"]
+    }
+}
