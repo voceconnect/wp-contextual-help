@@ -20,15 +20,15 @@ Adds helper functionality to easily add to the WP Contextual Help throughout the
 
 = As theme or plugin dependency: =
 > After dropping the plugin into the containing theme or plugin, add the following:
-```php
+`
 if( ! class_exists( 'WP_Contextual_Help' ) ) {
 	require_once( $path_to_help . '/wp-contextual-help.php' );
 }
-```
+`
 
 = As a composer dependency =
 Add the following to your composer.json required dependencies
-```json
+`
 {
     // ...
     "require": {
@@ -36,7 +36,7 @@ Add the following to your composer.json required dependencies
     },
     // ...
 }
-```
+`
 
 == Screenshots ==
 
