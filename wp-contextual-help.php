@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Contextual Help
 Description: Allows a developer to easily extend the contextual help dropdown content area in WordPress
-Version: 0.0.2
+Version: 0.0.3
 Author: kevinlangleyjr
 Plugin URI: http://voceplatforms.com
 */
