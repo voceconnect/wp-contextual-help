@@ -44,5 +44,8 @@ Add the following to your composer.json required dependencies
 
 == Changelog ==
 
+= 0.0.2 =
+* Fixing Readme
+
 = 0.0.1 =
 * Initial Commit

@@ -5,7 +5,7 @@ Contributors: kevinlangleyjr, voceplatforms
 Tags: contextual, help  
 Requires at least: 3.3  
 Tested up to: 3.9.1  
-Stable tag: 0.0.1  
+Stable tag: 0.0.2  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -102,4 +102,13 @@ add_action( 'init', function(){
 		}
 	) );
 } );
+?>
 ```
+
+## Changelog
+
+**0.0.2**
+* Fixing Readme
+
+**0.0.1**
+* Initial Commit
