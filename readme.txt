@@ -15,10 +15,10 @@ Adds helper functionality to easily add to the WP Contextual Help throughout the
 
 == Installation ==
 
-=== As standard plugin: ===
+= As standard plugin: =
 > See [Installing Plugins](http://codex.wordpress.org/Managing_Plugins#Installing_Plugins).
 
-=== As theme or plugin dependency: ===
+= As theme or plugin dependency: =
 > After dropping the plugin into the containing theme or plugin, add the following:
 ```php
 if( ! class_exists( 'WP_Contextual_Help' ) ) {
@@ -26,7 +26,7 @@ if( ! class_exists( 'WP_Contextual_Help' ) ) {
 }
 ```
 
-=== As a composer dependency ===
+= As a composer dependency =
 Add the following to your composer.json required dependencies
 ```json
 {
