@@ -14,6 +14,7 @@ if( !class_exists( 'WP_Contextual_Help' ) ){
 		static $help_docs_dir = '';
 		static $help_docs_img_url = '';
 		static $tabs = array();
+		static $tabs_by_page = array();
 
 		/**
 		 * Initialize plugin
@@ -27,9 +28,10 @@ if( !class_exists( 'WP_Contextual_Help' ) ){
 
 			foreach( self::$tabs as $tab ){
 				foreach( (array) $tab['page'] as $page ){
-					add_action( 'load-' . $page, function() use ($tab) {
-						self::add_tab_to_screen($tab);
-					} );
+					self::$tabs_by_page[ $page ][] = $tab;
+					if ( count( self::$tabs_by_page[ $page ] ) < 2 ) {
+						add_action( 'load-' . $page, array( __CLASS__, 'add_tab_to_screen' ) );
+					}
 				}
 			}
 		}
@@ -62,21 +64,25 @@ if( !class_exists( 'WP_Contextual_Help' ) ){
 		 *
 		 * Loops through all tabs and adds them on the appropriate screen
 		 */
-		static function add_tab_to_screen($tab){
-			// if post type arg is set, check the post type - if not same return
-			if( isset( $tab['args']['post_type'] ) ){
-				if( ! self::is_current_post_type( $tab ) ){
-					return;
+		static function add_tab_to_screen() {
+			$id = substr( current_action(), 5 );
+			$tabs = self::$tabs_by_page[ $id ];
+			foreach ( ( array ) $tabs as $tab ) {
+				// if post type arg is set, check the post type - if not same return
+				if ( isset( $tab[ 'args' ][ 'post_type' ] ) ) {
+					if ( !self::is_current_post_type( $tab ) ) {
+						return;
+					}
 				}
-			}
 
-			$callback = !empty( $tab['args']['callback'] ) ? $tab['args']['callback'] : array( __CLASS__, 'echo_tab_html' );
+				$callback = !empty( $tab[ 'args' ][ 'callback' ] ) ? $tab[ 'args' ][ 'callback' ] : array( __CLASS__, 'echo_tab_html' );
 
-			get_current_screen()->add_help_tab( array(
-					'id' => $tab['id'],
-					'title' => $tab['title'],
+				get_current_screen()->add_help_tab( array(
+					'id' => $tab[ 'id' ],
+					'title' => $tab[ 'title' ],
 					'callback' => $callback
-			) );
+				) );
+			}
 		}
 
 		/**
