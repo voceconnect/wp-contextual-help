@@ -96,9 +96,6 @@ if( !class_exists( 'WP_Contextual_Help' ) ){
 			$file_name = !empty($tab['file']) ? $tab['file'] : $tab['id'] . '.html';
 			$file = self::$help_docs_dir . DIRECTORY_SEPARATOR . $file_name;
 
-			$post_type_pages = array( 'post.php', 'post-new.php' );
-			$current_page = false;
-
 			if( file_exists( $file ) ){
 				if( !empty( $tab['args']['wpautop'] ) ){
 					$content = wpautop( file_get_contents( $file ) );
