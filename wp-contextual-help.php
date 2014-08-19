@@ -22,9 +22,10 @@ if( !class_exists( 'WP_Contextual_Help' ) ){
 		 */
 		static function init(){
 			global $pagenow;
-
-			self::$help_docs_dir = apply_filters( 'wp_contextual_help_docs_dir', get_template_directory() . '/includes/help-docs' );
-			self::$help_docs_img_url = apply_filters( 'wp_contextual_help_docs_url', get_template_directory_uri() . '/includes/help-docs/img' );
+			self::$help_docs_dir = array( get_template_directory() . '/includes/help-docs' );
+			self::$help_docs_img_url = array( get_template_directory_uri() . '/includes/help-docs/img' );
+			self::$help_docs_dir = apply_filters( 'wp_contextual_help_docs_dir', self::$help_docs_dir );
+			self::$help_docs_img_url = apply_filters( 'wp_contextual_help_docs_url', self::$help_docs_img_url );
 
 			foreach( self::$tabs as $tab ){
 				foreach( (array) $tab['page'] as $page ){
@@ -92,21 +93,28 @@ if( !class_exists( 'WP_Contextual_Help' ) ){
 		 * @return void
 		 */
 		static function echo_tab_html( $screen, $screen_tab ){
-			$tab = self::$tabs[$screen_tab['id']];
-			$file_name = !empty($tab['file']) ? $tab['file'] : $tab['id'] . '.html';
-			$file = self::$help_docs_dir . DIRECTORY_SEPARATOR . $file_name;
+            $content = '';
+            $i = -1;
+            $tab = self::$tabs[ $screen_tab[ 'id' ] ];
+            $file_name = !empty( $tab[ 'file' ] ) ? $tab[ 'file' ] : $tab[ 'id' ] . '.html';
+            foreach ( self::$help_docs_dir as $help_docs_dir ) {
+                $i++;
+                $file = $help_docs_dir . DIRECTORY_SEPARATOR . $file_name;
 
-			if( file_exists( $file ) ){
-				if( !empty( $tab['args']['wpautop'] ) ){
-					$content = wpautop( file_get_contents( $file ) );
-				} else {
-					$content = file_get_contents( $file );
-				}
-			} else {
-				$content = 'The provided HTML file is invalid.';
-			}
+                if ( file_exists( $file ) ) {
+                    if ( !empty( $tab[ 'args' ][ 'wpautop' ] ) ) {
+                        $content = wpautop( file_get_contents( $file ) );
+                    } else {
+                        $content = file_get_contents( $file );
+                    }
+                    break;
+                }
+            }
+            if ( empty( $content ) ) {
+                $content = 'The provided HTML file is invalid or not founded.';
+            }
 
-			$content = str_replace( '{WP_HELP_IMG_URL}', self::$help_docs_img_url, $content );
+            $content = str_replace( '{WP_HELP_IMG_URL}', self::$help_docs_dir[$i], $content );
 
 			echo $content;
 		}
