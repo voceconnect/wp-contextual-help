@@ -11,8 +11,8 @@ if( !class_exists( 'WP_Contextual_Help' ) ){
 
 	class WP_Contextual_Help {
 
-		static $help_docs_dir = '';
-		static $help_docs_img_url = '';
+		static $help_docs_dir = array();
+		static $help_docs_img_url = array();
 		static $tabs = array();
 		static $tabs_by_page = array();
 
@@ -22,8 +22,9 @@ if( !class_exists( 'WP_Contextual_Help' ) ){
 		 */
 		static function init(){
 			global $pagenow;
-			self::$help_docs_dir = array( get_template_directory() . '/includes/help-docs' );
-			self::$help_docs_img_url = array( get_template_directory_uri() . '/includes/help-docs/img' );
+
+			self::$help_docs_dir[] = get_template_directory() . '/includes/help-docs';
+			self::$help_docs_img_url[] = get_template_directory_uri() . '/includes/help-docs/img';
 			self::$help_docs_dir = apply_filters( 'wp_contextual_help_docs_dir', self::$help_docs_dir );
 			self::$help_docs_img_url = apply_filters( 'wp_contextual_help_docs_url', self::$help_docs_img_url );
 
@@ -72,7 +73,7 @@ if( !class_exists( 'WP_Contextual_Help' ) ){
 				// if post type arg is set, check the post type - if not same return
 				if ( isset( $tab[ 'args' ][ 'post_type' ] ) ) {
 					if ( !self::is_current_post_type( $tab ) ) {
-						return;
+						continue;
 					}
 				}
 
@@ -93,28 +94,26 @@ if( !class_exists( 'WP_Contextual_Help' ) ){
 		 * @return void
 		 */
 		static function echo_tab_html( $screen, $screen_tab ){
-            $content = '';
-            $i = -1;
-            $tab = self::$tabs[ $screen_tab[ 'id' ] ];
-            $file_name = !empty( $tab[ 'file' ] ) ? $tab[ 'file' ] : $tab[ 'id' ] . '.html';
-            foreach ( self::$help_docs_dir as $help_docs_dir ) {
-                $i++;
-                $file = $help_docs_dir . DIRECTORY_SEPARATOR . $file_name;
+			$content = '';
+			$tab = self::$tabs[ $screen_tab[ 'id' ] ];
+			$file_name = !empty( $tab[ 'file' ] ) ? $tab[ 'file' ] : $tab[ 'id' ] . '.html';
+			for( $i = 0; $i < count(self::$help_docs_dir); $i++ ){
+				$file = self::$help_docs_dir[$i] . DIRECTORY_SEPARATOR . $file_name;
 
-                if ( file_exists( $file ) ) {
-                    if ( !empty( $tab[ 'args' ][ 'wpautop' ] ) ) {
-                        $content = wpautop( file_get_contents( $file ) );
-                    } else {
-                        $content = file_get_contents( $file );
-                    }
-                    break;
-                }
-            }
-            if ( empty( $content ) ) {
-                $content = 'The provided HTML file is invalid or not founded.';
-            }
+				if ( file_exists( $file ) ) {
+					if ( !empty( $tab[ 'args' ][ 'wpautop' ] ) ) {
+						$content = wpautop( file_get_contents( $file ) );
+					} else {
+						$content = file_get_contents( $file );
+					}
+					break;
+				}
+			}
+			if ( empty( $content ) ) {
+				$content = 'The provided HTML file is invalid or not founded.';
+			}
 
-            $content = str_replace( '{WP_HELP_IMG_URL}', self::$help_docs_dir[$i], $content );
+			$content = str_replace( '{WP_HELP_IMG_URL}', self::$help_docs_img_url[$i], $content );
 
 			echo $content;
 		}
