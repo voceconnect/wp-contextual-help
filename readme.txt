@@ -4,7 +4,7 @@ Donate link: http://voceplatforms.com/
 Tags: contextual, help
 Requires at least: 3.3
 Tested up to: 3.9.1
-Stable tag: 0.0.3
+Stable tag: 0.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -111,11 +111,4 @@ Add the following to your composer.json required dependencies
 
 == Changelog ==
 
-= 0.0.3 =
-* Adding example to readme
-
-= 0.0.2 =
-* Fixing Readme
-
-= 0.0.1 =
-* Initial Commit
+Please refer to full changelog at https://github.com/voceconnect/wp-contextual-help/releases.
